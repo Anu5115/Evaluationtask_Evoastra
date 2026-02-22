@@ -1,0 +1,491 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Evoastra Ventures Intern Assessment Task\n",
+    "**Duration: 35 Minutes | Total Points: 100**\n",
+    "\n",
+    "---\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## **Candidate Information**\n",
+    "\n",
+    "**Fill in your details below:**\n",
+    "- **Name:** Anushka Mishra\n",
+    "- **Email:** mishraanushka005@gmail.com\n",
+    "- **Phone:** 8800731070\n",
+    "- **College/University:** MNIT Jaipur\n",
+    "- **Course/Branch:** BTech- Mechanical Engg\n",
+    "- **Start Time:** 2023\n",
+    "- **End Time:** 2027\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## **Dataset for Assessment**\n",
+    "\n",
+    "**E-commerce Customer Behavior Dataset**\n",
+    "- **Direct Link:** https://www.kaggle.com/datasets/shriyashjagtap/e-commerce-customer-for-behavior-analysis\n",
+    "\n",
+    "**Dataset Columns:**\n",
+    "- **Customer ID:** Unique identifier for each customer\n",
+    "- **Customer Name:** Name of the customer\n",
+    "- **Customer Age:** Age of the customer\n",
+    "- **Gender:** Gender of the customer\n",
+    "- **Purchase Date:** Date of each purchase\n",
+    "- **Product Category:** Category of the purchased product\n",
+    "- **Product Price:** Price of the purchased product\n",
+    "- **Quantity:** Quantity of product purchased\n",
+    "- **Total Purchase Amount:** Total amount spent in each transaction\n",
+    "- **Payment Method:** Payment method used (credit card, PayPal, etc.)\n",
+    "- **Returns:** Whether customer returned products (0 = No, 1 = Yes)\n",
+    "- **Churn:** Whether customer has churned (0 = Retained, 1 = Churned)\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "---\n",
+    "## **SECTION A: Data Understanding & Basic Analysis (25 Points - 10 Minutes)**\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Question 1 (8 points)\n",
+    "Based on the dataset structure, identify the **data types** for the following columns and explain why each classification is important for analysis:\n",
+    "\n",
+    "- **Customer Age**\n",
+    "- **Gender**\n",
+    "- **Total Purchase Amount**\n",
+    "- **Churn**\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Your Answer for Question 1\n",
+    "# Customer Age: integer\n",
+    "# this column gives insights about the age group of customer base of the company.\n",
+    "\n",
+    "# Gender: boolean\n",
+    "# this column gives insights about which gender is more comprised in the customer base of the company.\n",
+    "\n",
+    "# Total Purchase Amount: integer\n",
+    "# this column can give important info about the transaction like the max, min and average transaction amounts. \n",
+    "\n",
+    "# Churn: boolean\n",
+    "# this is a very important insight for a company as to know how many customers continued using the services of a company. \n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Question 2 (8 points)\n",
+    "Which **analytical technique** would be most appropriate for each business question below?\n",
+    "\n",
+    "a) \"Which product categories generate the highest revenue?\"\n",
+    "b) \"Can we predict customer churn based on purchase behavior?\"\n",
+    "c) \"What is the relationship between customer age and spending patterns?\"\n",
+    "d) \"Which payment methods are preferred by different customer segments?\"\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Your Answer for Question 2\n",
+    "# a) Product categories with highest revenue: descriptive- first aggregation then ranking, if we use SQL here, we would apply Aggregate function to 'Total Purchase Amount' by 'Product Category' then rank them.\n",
+    "\n",
+    "# b) Predicting customer churn: predictive- we would train models (for eg.- Random forest, XGBoost, etc.) on the churn column and then give the probability of retainability. \n",
+    "\n",
+    "# c) Age and spending relationship: EDA- Heatmaps and correlation coefficients can be used to find the strength of relationship between the two columns. \n",
+    "\n",
+    "# d) Payment method preferences: Descriptive/EDA- Which payment methods are more prefered in segments based on age or gender can be visualized using graphs such as piechart or bar chart (matplotlib/seaborn). \n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Question 3 (9 points)\n",
+    "**Data Quality Assessment:** What are the top 3 potential data quality issues you would check for in this e-commerce dataset before starting analysis? For each issue, suggest one method to detect it.\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Your Answer for Question 3\n",
+    "# Issue 1:null values present \n",
+    "\n",
+    "# Detection Method 1: checking for null values and either replacing the null values with mean, median or mode according to the requirement, or removing the whole rows if the number of null values is small. \n",
+    "\n",
+    "# Issue 2: Invalid values \n",
+    "# To remove practically wrong values due to human errors at the time of data entry, such as negative values in product price or quantity or unsually ages entered.\n",
+    "# Detection Method 2: to put constraints such as range checks and value constraints and delete abnormal value rows. \n",
+    "\n",
+    "# Issue 3: Inconsistent Categorical Labels (for eg the gender column can have values such as- male, M, 1 where all the three values mean the same)\n",
+    "\n",
+    "# Detection Method 3: Inspect for unique values using SQL, then apply normalization using python\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "---\n",
+    "## **SECTION B: Customer Analysis & Business Intelligence (35 Points - 15 Minutes)**\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Scenario: E-commerce Revenue Analysis\n",
+    "\n",
+    "Based on the dataset structure, assume you have the following customer insights:\n",
+    "\n",
+    "**Customer Segments by Age:**\n",
+    "- **Young (18-30):** 40% of customers, Average Purchase Amount: ₹850, Return Rate: 12%\n",
+    "- **Middle-aged (31-50):** 45% of customers, Average Purchase Amount: ₹1,200, Return Rate: 8%\n",
+    "- **Senior (51+):** 15% of customers, Average Purchase Amount: ₹950, Return Rate: 15%\n",
+    "\n",
+    "**Additional Information:**\n",
+    "- Average customer acquisition cost: ₹180\n",
+    "- Platform profit margin: 20% of purchase amount\n",
+    "- Customer churn rates: Young (25%), Middle-aged (15%), Senior (30%)\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Question 4 (15 points)\n",
+    "**Calculate and analyze:**\n",
+    "\n",
+    "a) Which customer segment generates the highest **net profit per customer** (considering returns)? Show your calculations. (8 points)\n",
+    "\n",
+    "\n",
+    "b) Which segment has the **best customer lifetime value** considering churn rates? Provide reasoning. (7 points)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Your Calculations for Question 4\n",
+    "\n",
+    "# a) Net profit per customer calculations:\n",
+    "\n",
+    "# Young Customers:\n",
+    "#  average purchase of youngsters=850\n",
+    "#. effective purchase = 850(100-return%)=850*0.88=748\n",
+    "#  gross profit= 0.20*748=149.6\n",
+    "#  actual profit= gross profit- Customer acq. cost= 149.6-180= -30.4 (loss)\n",
+    "\n",
+    "# Middle-aged Customers:\n",
+    "#  average purchase =1200\n",
+    "#. effective purchase = 1200(100-return%)=1200*0.92=1104\n",
+    "#  gross profit= 0.20*1104=220.8\n",
+    "#  actual profit= gross profit- Customer acq. cost= 220.8-180= 40.8 (profit)\n",
+    "\n",
+    "# Senior Customers:\n",
+    "#  average purchase =950\n",
+    "#. effective purchase = (100-return%)= 950*0.85 =807.5\n",
+    "#  gross profit= 0.20*807.5 = 161.5\n",
+    "#  actual profit= gross profit- Customer acq. cost= 161.5-180= -18.5 (loss)\n",
+    "\n",
+    "# therefore, the middle aged customers gave the greatest profit margin.  \n",
+    "\n",
+    "# b) Customer Lifetime Value Analysis: \n",
+    "# Customer Lifetime Value= (Net profit/customer)/churn rate\n",
+    "# for youngsters= -30.4/0.25=-121.6\n",
+    "# for middle aged= 40.8/0.15= 272\n",
+    "# for senior= -18.5/0/0.30= -61.67\n",
+    "# clearly, again middle aged are better. \n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Question 5 (10 points)\n",
+    "**Strategic Recommendations:** Based on your analysis, what would be your **top 2 marketing strategies** to maximize overall profitability? Consider customer acquisition, retention, and return rates.\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Your Answer for Question 5\n",
+    "\n",
+    "# Strategy 1: Optimize Customer Acquisition Cost by Segment, this means that specialized better quality and more relatable as to the middle aaged should be used to attracted more middle aged customers who give better profits. \n",
+    "\n",
+    "# Strategy 2: Since the return rates are high in youngsters and seniors, Offer subscription plans / loyalty rewards to lock in long-term value, Also, provide for better quality products and sizing guides for the products if required. \n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Question 6 (10 points)\n",
+    "**Churn Prevention:** You notice that customers who make purchases in the \"Electronics\" category have a 35% churn rate, while \"Fashion\" category customers have only 18% churn rate. What **specific data analysis** would you conduct using the available dataset columns to understand this difference, and what **action plan** would you recommend?\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Your Answer for Question 6\n",
+    "\n",
+    "# Data Analysis Plan: Compare average order value, purchase frequency per customer, time gap between purchases: this is likely because electronics purchases are one-time and there are frequent fashion purchases leading to lower churn. \n",
+    "\n",
+    "# Action Plan: Setup 30 day engagement- circulate set up videos, how to use guides, applications for electronics buyers, recommend or combine free acessories, add-ons, extended warranties or free servicing. "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "---\n",
+    "## **SECTION C: Research Methodology & Predictive Analytics (25 Points - 8 Minutes)**\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Scenario: Churn Prediction Model Development\n",
+    "\n",
+    "Your company wants to build a machine learning model to predict customer churn using the available dataset.\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Question 7 (15 points)\n",
+    "**Model Development Plan:** Create a comprehensive approach including:\n",
+    "\n",
+    "a) **Feature selection:** Which columns from the dataset would you use as features for the churn prediction model and why? (5 points)\n",
+    "b) **Data preprocessing steps:** What preprocessing would you apply to prepare the data? (5 points)\n",
+    "c) **Model evaluation metrics:** Which metrics would you use to evaluate model performance for this business problem? (5 points)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Your Answer for Question 7\n",
+    "\n",
+    "# a) Feature Selection:Customer Age, Gender, Product Category, Total Purchase Amount, Quantity, Returns, Payment Method\n",
+    "\n",
+    "# b) Data Preprocessing Steps: treating missing values, categorical encoding, feature engg, outlier handling, feature scaling.\n",
+    "\n",
+    "# c) Model Evaluation Metrics: ROC-AUC, Precision, Recall, F1-score\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Question 8 (10 points)\n",
+    "**Business Impact Analysis:** Identify 3 potential business challenges in implementing a churn prediction model and propose one **data-driven solution** for each challenge using insights from the customer behavior dataset.\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Your Answer for Question 8\n",
+    "\n",
+    "# Challenge 1: If the model incorrectly labels loyal customers as churn-risk, the business wastes money on unnecessary discounts and incentives, hurting profitability.\n",
+    "# Data-driven Solution 1: Use precision-focused modeling for the churn class.\n",
+    "\n",
+    "# Challenge 2:Churn drivers vary across Product Categories, Age Groups, and Payment Methods. A single global model may underperform for specific segments.\n",
+    "# Data-driven Solution 2:Perform segment-wise churn analysis (e.g., Electronics vs Fashion).\n",
+    "\n",
+    "# Challenge 3:Predicting churn is useless unless it leads to actionable decisions. Many churn models fail because they don’t translate predictions into interventions.\n",
+    "# Data-driven Solution 3:Build an action framework tied to churn signals: 1. High returns - improve product guidance or exchange offers\n",
+    "# 2. Low recency - reminder or re-engagement campaign\n",
+    "# 3. High spenders - priority retention\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "---\n",
+    "## **SECTION D: Professional Communication & Problem-Solving (15 Points - 2 Minutes)**\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Question 9 (8 points)\n",
+    "**Crisis Management:** While analyzing the dataset, you discover that 40% of customers who returned products (Returns = 1) also churned within the same month. However, your initial analysis showed returns don't strongly correlate with churn. As a team member, describe your immediate approach to investigate this discrepancy and communicate findings to stakeholders (60-80 words).\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Your Answer for Question 9 (60-80 words):\n",
+    "#I would first validate the **time dimension** by aligning returns and churn on a monthly timeline to check whether churn occurs *after* a return, rather than being aggregated over the entire dataset. Next, I would perform a **conditional churn analysis** (churn rate given returns by product category and customer segment). I would communicate to stakeholders that overall correlation hides **short-term, segment-specific effects**, and recommend time-aware features and targeted post-return retention actions.\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Question 10 (7 points)\n",
+    "**Leadership Scenario:** If selected as team lead for analyzing this e-commerce customer dataset, what would be your **top 3 priorities** to ensure effective team collaboration and delivery of actionable business insights?\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Your Answer for Question 10\n",
+    "\n",
+    "# Priority 1:\n",
+    "# Align on business objectives and definitions—clearly define churn, returns, profitability, and success metrics so the team works toward the same goals.\n",
+    "\n",
+    "# Priority 2:\n",
+    "# Establish a structured analytics workflow—standardize data cleaning, feature engineering, and validation to ensure consistency and reproducibility across analyses.\n",
+    "\n",
+    "# Priority 3:\n",
+    "# Translate insights into actions—ensure every analysis leads to clear recommendations (who to target, when, and how), and communicate findings through simple dashboards and stakeholder-ready summaries.\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "---\n",
+    "## **Self-Assessment Section**\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Time Management Check\n",
+    "# Did you complete all sections within 35 minutes? (Yes/No): NO\n",
+    "\n",
+    "# Which section took the most time? SECTION B\n",
+    "\n",
+    "# Which section was most challenging? C\n",
+    "\n",
+    "# Confidence Level (1-10 scale):\n",
+    "# Section A (Data Understanding): 8\n",
+    "# Section B (Business Analysis):  7\n",
+    "# Section C (Research Methodology): 7 \n",
+    "# Section D (Communication): 7\n",
+    "\n",
+    "# Additional Comments:\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "---\n",
+    "## **Submission Instructions**\n",
+    "\n",
+    "1. **Save this notebook** with the filename: `YourName_Evoastra_Assessment.ipynb`\n",
+    "2. **Ensure all code cells have been executed** and answers are visible\n",
+    "3. **Double-check** that all sections are completed\n",
+    "\n",
+    "**Submission Confirmation:**\n",
+    "- I confirm that I have completed this assessment independently\n",
+    "- All my responses are my own original work\n",
+    "\n",
+    "**Digital Signature:** _____Anushka Mishra______  \n",
+    "**Final Submission Time:** _________22 Feb, 2026, 4:40pm___________"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "---\n",
+    "## **Evaluation Criteria**\n",
+    "\n",
+    "**Scoring Breakdown:**\n",
+    "- **Section A (Data Understanding):** 25 points\n",
+    "- **Section B (Business Analysis):** 35 points  \n",
+    "- **Section C (Research Methodology):** 25 points\n",
+    "- **Section D (Communication):** 15 points\n",
+    "- **Total:** 100 points\n",
+    "\n",
+    "**Team Selection Criteria:**\n",
+    "- **Team Lead:** Score ≥ 75 points + Strong Section D performance\n",
+    "- **Co-Lead:** Score ≥ 65 points + Good Section D performance\n",
+    "- **Team Member:** Successful completion of assessment\n",
+    "\n",
+    "---\n",
+    "\n",
+    "*Good luck with your assessment! Focus on clear reasoning, accurate calculations, and practical business applications.*"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.14.2"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
